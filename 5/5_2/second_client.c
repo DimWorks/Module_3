@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#define _LEN_ 100
+
 int main(int argc, char **argv) {
     if (argc != 2){
         printf("Usage: ./second_client <port>\n");
@@ -15,7 +17,7 @@ int main(int argc, char **argv) {
     }
     int sockfd; /* Дескриптор сокета */
     int clilen, n; /* Переменные для различных длин и количества символов */
-    char message[1000]; /* Массив для принятой и отсылаемой строки */
+    char message[_LEN_]; /* Массив для принятой и отсылаемой строки */
     struct sockaddr_in servaddr, cliaddr; /* Структуры для адресов сервера и клиента */
     /* Заполняем структуру для адреса сервера */
     bzero(&servaddr, sizeof(servaddr));
@@ -56,7 +58,7 @@ int main(int argc, char **argv) {
         /* Печатаем принятый текст на экране */
         printf("Friend: %s", message);
         printf("You:  ");
-        fgets(message, 1000, stdin);
+        fgets(message, _LEN_, stdin);
         /* Принятый текст отправляем обратно по адресу отправителя */
         if (sendto(sockfd, message, strlen(message)+1, 0, (struct sockaddr *) &cliaddr, clilen) < 0){
             perror(NULL);
